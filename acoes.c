@@ -102,6 +102,20 @@ void itens(Player *player){
 }
 
 // Método responsável por realizar a ação de luta contra um zumbi
-int lutar(){
+void lutar(Player *player){
+	int tipoDoZumbi = gerarZumbi();
+
+	switch(tipoDoZumbi){
+		case 1:
+			printf("Você foi atacado por um zumbi comum!\n");
+		case 2:
+			printf("Você foi atacado por um zumbi protegido!\n");
+		case 3:
+			printf("Você foi atacado por um cachorro zumbi!\n");
+		case 4:
+			printf("Você foi atacado por um zumbi tank!\n");
+	}
+
 	return 0;
+
 }

@@ -103,14 +103,53 @@ void ocorrerEvento(){
 	switch (codEvento){
 		case 1:
 			// Adicionar o evento de aparição de zumbi
+			printf("A wild zombie appears!\n");
+			lutar();
 			break;
 
 		case 2:
 			// Adicionar o evento de interação com um NPC
+			printf("A wild NPC appears!\n");
+			printf("Deseja interagir com ele?\n");
 			break;
 
 		case 3:
 			// Adicionar o evento de descoberta de item
+			printf("A wild item appears!\n");
 			break;
 	}
+}
+
+int gerarZumbi(Player *player){
+	int tipoDoZumbi;
+
+	srand(time(NULL));
+	if(*player.xp < 100){
+		tipoDoZumbi = 1;
+	} else if(*player.xp > 100){
+		tipoDoZumbi = (rand() % 2) + 1;
+	} else if(*player.xp > 200){
+		tipoDoZumbi = (rand() % 3) + 1;
+	} else if(*player.xp > 300){
+		tipoDoZumbi = (rand() % 4) + 1;
+	}
+
+	return tipoDoZumbi;
+}
+
+int gerarItem(Player *player){
+	int tipoDoItem;
+
+	srand(time(NULL));
+	if(*player.xp < 100){
+		tipoDoItem = 1;
+	} else if(*player.xp > 100){
+		tipoDoItem = (rand() % 2) + 1;
+	} else if(*player.xp > 200){
+		tipoDoItem = (rand() % 3) + 1;
+	} else if(*player.xp > 300){
+		tipoDoItem = (rand() % 4) + 1;
+	}
+
+	return tipoDoItem;
 }

@@ -9,4 +9,4 @@ void agir();
 
 void itens();
 
-int lutar();
+void lutar(Player *player);
