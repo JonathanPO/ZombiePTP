@@ -18,11 +18,15 @@ int adicionarUsuario(char usuario[], char senha[]){
 	return 0;
 }
 
+Player buscarJogador(char login[]){
+	return 0;
+}
+
 int buscarLocal(Building *building){
 	return 0;
 }
 
-int buscarNPC(char type[]){
+NPC buscarNPC(char type[]){
 	return 0;
 }
 

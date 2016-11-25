@@ -3,10 +3,10 @@ Arquivo responsável por definir os métodos de ações
 Autores: Arthur Cohen e Jonathan Gabriel
 */
 
-void mover();
+void mover(Player *player);
 
-void agir();
+void agir(Player *player, NPC *npc);
 
-void itens();
+void itens(Player *player);
 
 void lutar(Player *player);

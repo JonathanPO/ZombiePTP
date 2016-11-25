@@ -30,21 +30,20 @@ int criarUsuario(char usuario[10], char senha[10]){
 }
 
 // Método responsável por manter o estado de jogo e definir as ações possíveis
-void jogar(){
+void jogar(char login[20]){
 	char acao[10] = "inicio";
+
+	Player player = buscarJogador(login);
 
 	while(acao != "sair"){
 		printf("Comando:\n")
 		scanf("%s", acao);
 		printf("\n\n\n");
 
-		//Adicionar as chamadas dos métodos
 		if(strcmp(acao, "mover") == 0){
-			mover();
-		} else if(strcmp(acao, "agir") == 0){
-			agir();
+			mover(&player);
 		} else if(strcmp(acao, "itens") == 0){
-			itens();
+			itens(&player);
 		} else{
 			printf("Esse comando não existe.");
 		}
@@ -93,8 +92,9 @@ void usarItem(Player *player, int cod){
 	}
 }
 
-void ocorrerEvento(){
-	int codEvento;
+void ocorrerEvento(Player *player){
+	int codEvento, tipoDoItem;
+	char acao[4];
 
 	srand(time(NULL));
 
@@ -102,20 +102,25 @@ void ocorrerEvento(){
 
 	switch (codEvento){
 		case 1:
-			// Adicionar o evento de aparição de zumbi
 			printf("A wild zombie appears!\n");
-			lutar();
+			lutar(player);
 			break;
 
 		case 2:
-			// Adicionar o evento de interação com um NPC
 			printf("A wild NPC appears!\n");
-			printf("Deseja interagir com ele?\n");
+			printf("Deseja interagir com ele? (sim ou não)\n");
+			if(strcmp(acao, "sim") == 0){
+				NPC npc = buscarNPC(gerarNPC(player));
+				agir(player, &npc);
+			} else if(strcmp(acao, "nao") == 0){
+				printf("O NPC foi embora\n");
+			}
+
 			break;
 
 		case 3:
-			// Adicionar o evento de descoberta de item
 			printf("A wild item appears!\n");
+			gerarItem(player);
 			break;
 	}
 }
@@ -137,7 +142,7 @@ int gerarZumbi(Player *player){
 	return tipoDoZumbi;
 }
 
-int gerarItem(Player *player){
+void gerarItem(Player *player){
 	int tipoDoItem;
 
 	srand(time(NULL));
@@ -151,5 +156,17 @@ int gerarItem(Player *player){
 		tipoDoItem = (rand() % 4) + 1;
 	}
 
-	return tipoDoItem;
+	for(i=0; i < *player.bag.size(); i++){
+		if(*player.bag[i] == 0){
+				*player.bag[i] == tipoDoItem;
+				i = *player.bag.size();
+		}
+	}
+
+}
+
+char* gerarNPC(Player *player){
+	char *tipoDoNPC;
+
+	return tipoDoNPC;
 }

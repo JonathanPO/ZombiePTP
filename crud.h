@@ -10,8 +10,10 @@ int buscarUsuario(char usuario[], char senha[]);
 
 int adicionarUsuario(char usuario[], char senha[]);
 
+Player buscarJogador(char login[]);
+
 int buscarLocal(Building *building);
 
-int buscarNPC(char type[]);
+NPC buscarNPC(char type[]);
 
 int buscarZumbi(char type[]);

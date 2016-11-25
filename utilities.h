@@ -13,4 +13,10 @@ char* traduzirItens(int cod);
 
 void usarItem(Player *player, int cod);
 
-void ocorrerEvento();
+void ocorrerEvento(Player *player);
+
+int gerarZumbi(Player *player);
+
+void gerarItem(Player *player);
+
+char* gerarNPC(Player *player);
