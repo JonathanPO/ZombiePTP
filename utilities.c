@@ -48,8 +48,10 @@ void jogar(char login[20]){
 			printf("Esse comando não existe.");
 		}
 
-		ocorrerEvento();
+		ocorrerEvento(&player);
 	}
+
+	*player.stamina += 10;
 }
 
 char* traduzirItens(int cod){
@@ -98,7 +100,7 @@ void ocorrerEvento(Player *player){
 
 	srand(time(NULL));
 
-	codEvento = (rand() % 3) + 1;
+	codEvento = (rand() % 4) + 1;
 
 	switch (codEvento){
 		case 1:
@@ -122,6 +124,7 @@ void ocorrerEvento(Player *player){
 			printf("A wild item appears!\n");
 			gerarItem(player);
 			break;
+
 	}
 }
 
@@ -167,6 +170,13 @@ void gerarItem(Player *player){
 
 char* gerarNPC(Player *player){
 	char *tipoDoNPC;
+
+	srand(time(NULL));
+	if(*player.xp < 100){
+		tipoDoNPC = "Viajante";
+	} else if(*player.xp > 100){
+		tipoDoNPC = "Comerciante";
+	}
 
 	return tipoDoNPC;
 }
