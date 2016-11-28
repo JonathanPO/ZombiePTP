@@ -9,27 +9,27 @@ Autores: Arthur Cohen e Jonathan Gabriel
 #include "structs.h"
 
 // Método responsável por buscar um usuário no banco de dados
-int buscarUsuario(char usuario[], char senha[]){
+int buscarUsuario(char *usuario, char *senha){
 	return 0;
 }
 
 // Método responsável por adicionar um usuário na base de dados
-int adicionarUsuario(char usuario[], char senha[]){
+int adicionarUsuario(char *usuario, char *senha){
 	return 0;
 }
 
-Player buscarJogador(char login[]){
+Player buscarJogador(char *login){
 	return 0;
 }
 
-int buscarLocal(Building *building){
+Building buscarLocal(Building *building){
 	return 0;
 }
 
-NPC buscarNPC(char type[]){
+NPC buscarNPC(char *type){
 	return 0;
 }
 
-int buscarZumbi(char type[]){
+int buscarZumbi(char *type){
 	return 0;
 }

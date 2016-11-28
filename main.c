@@ -3,8 +3,8 @@
 #include "utilities.h"
 
 int main(void){
-	char login[10];
-	char senha[10];
+	char *login;
+	char *senha;
 
 	printf("Bem vindo ao Zombie Text!\n\n\n");
 	printf("---------------------------------\n");

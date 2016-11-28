@@ -6,29 +6,27 @@ Autores: Arthur Cohen e Jonathan Gabriel
 #include <string.h>
 
 typedef struct {
-	char location[];
+	int idBuild;
+	char *name;
+	int location;
 	int size;
-	char theft[];
-	char enemy;
+	int theft;
+	int bag[];
+	char *description;
 } Building;
 
 typedef struct {
-	char name[];
+	int idPlayer;
+	char *name;
+	char *password;
 	int hp;
 	int xp;
-	int bag[20];
 	int stamina;
 } Player;
 
 typedef struct {
-	char type[];
+	int idEnemy
+	char *name;
 	int hp;
-	int xp;
-	char theft[];
-} Zombie;
-
-typedef struct{
-	char tipo[];
-	int bag[20];
-	int swap[20];
-} NPC;
+	int xpGain;
+} Enemy;

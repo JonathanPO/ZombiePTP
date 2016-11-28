@@ -20,17 +20,20 @@ void mover(Player *player){
 
 	building.location = location;
 
+	building = buscarLocal(building);
+
 	*player.stamina = *player.stamina - building.size;
 
-	printf("Você chegou na localidade\n");
+	printf("Você chegou na localidade %i\n", building.location);
+	printf("%s\n", building.description);
 
 }
 
 // Método responsável por realizar a ação de permitir o personagem interagir com um NPC
-void agir(Player *player, NPC *npc){
+void agir(Player *player, char *npc){
 	int i = 0, j = 0, cod = -1;
 
-	if(strcmp(*npc.type, "vendedor") == 0){
+	if(strcmp(*npc, "vendedor") == 0){
 		printf("---------------------------Bem vindo à loja---------------------------\n");
 
 		for(i=0; i < *npc.bag.size(); i++){

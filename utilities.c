@@ -12,7 +12,7 @@ Autores: Arthur Cohen e Jonathan Gabriel
 #include "structs.h"
 
 // Método responsável por definir se existe um usuário no banco de dados a partir do seu login e senha
-int autenticar(char usuario[10], char senha[10]){
+int autenticar(char *usuario, char *senha){
 	if(buscarUsuario(usuario, senha) = 0){
 		return 0;
 	} else{
@@ -21,7 +21,7 @@ int autenticar(char usuario[10], char senha[10]){
 }
 
 // Método responsável por requisitar a criação de um novo usuário no banco de dados
-int criarUsuario(char usuario[10], char senha[10]){
+int criarUsuario(char *usuario, char *senha){
 	if(criarUsuario(usuario, senha) == 0){
 		return 0;
 	} else{
@@ -30,7 +30,7 @@ int criarUsuario(char usuario[10], char senha[10]){
 }
 
 // Método responsável por manter o estado de jogo e definir as ações possíveis
-void jogar(char login[20]){
+void jogar(char *login){
 	char acao[10] = "inicio";
 
 	Player player = buscarJogador(login);
@@ -112,8 +112,8 @@ void ocorrerEvento(Player *player){
 			printf("A wild NPC appears!\n");
 			printf("Deseja interagir com ele? (sim ou não)\n");
 			if(strcmp(acao, "sim") == 0){
-				NPC npc = buscarNPC(gerarNPC(player));
-				agir(player, &npc);
+				char *npc = gerarNPC(player);
+				agir(player, npc);
 			} else if(strcmp(acao, "nao") == 0){
 				printf("O NPC foi embora\n");
 			}
