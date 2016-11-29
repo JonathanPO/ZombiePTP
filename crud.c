@@ -4,34 +4,139 @@ Autores: Arthur Cohen e Jonathan Gabriel
 */
 
 #include <string.h>
-//#include <mysql.h>
+#include <mysql/mysql.h>
 #include "crud.h"
 #include "structs.h"
 
+// Método responsável por fazer uma conexão com o banco de dados
+MYSQL conectar(){
+	MYSQL conexao;
+
+	mysql_init(&conexao);
+
+	if(mysql_real_connect(&conexao, "localhost", "root", "root", "teste", 0, NULL, 0)){
+		return conexao;
+	} else{
+		printf("Conexão com o banco falhou");
+
+		return NULL;
+	}
+}
+
+// Método responsável por fechar uma conexão existente
+void fecharConexao(MYSQL *conexao){
+	mysql_close(conexao);
+}
+
 // Método responsável por buscar um usuário no banco de dados
 int autenticarUsuario(char *usuario, char *senha){
-	return 0;
+	MYSQL conexao = conectar();
+	MYSQL_RES res;
+	MYSQL_ROW rows;
+	char *query;
+	int i=0, rtn=1;
+
+	sprintf(query, "SELECT password FROM player WHERE name='%s';", usuario);
+
+	mysql_query(&conexao, query);
+	resp = mysql_store_result(&conexao);
+
+	while((rows = mysql_fetch_row(resp) != NULL){
+		if(rows[0] == senha){
+			rtn = 0;
+		}
+	}
+
+	fecharConexao(&conectar);
+
+	return rtn;
 }
 
 // Método responsável por adicionar um usuário na base de dados
 int adicionarUsuario(char *usuario, char *senha){
+	MYSQL conexao = conectar();
+	char *query;
+
+	sprintf(query, "INSERT INTO player(name, password, hp, xp) VALUES ('%s', '%s', 200, 50);", usuario, senha);
+
+	mysql_query(&conexao, query);
+
+	fecharConexao(&conectar);
+
 	return 0;
 }
 
 Player buscarJogador(char *login){
+	MYSQL conexao = conectar();
 	Player player;
+	MYSQL_RES res;
+	MYSQL_ROW rows;
+	char *query;
+
+	sprintf(query, "SELECT * FROM player WHERE name='%s';", login);
+
+	mysql_query(&conexao, query);
+	resp = mysql_store_result(&conexao);
+
+	while((rows = mysql_fetch_row(resp) != NULL){
+		player.idPlayer = atoi(rows[0]);
+		player.name = rows[1];
+		player.password = rows[2];
+		player.hp = atoi(rows[3]);
+		player.xp = atoi(rows[4]);
+	}
+
+	fecharConexao(&conectar);
 
 	return player;
 }
 
 Building buscarLocal(int location){
+	MYSQL conexao = conectar();
 	Building building;
+	MYSQL_RES res;
+	MYSQL_ROW rows;
+	char *query;
+
+	sprintf(query, "SELECT * FROM building WHERE location = '%i';", location);
+
+	mysql_query(&conexao, query);
+	resp = mysql_store_result(&conexao);
+
+	while((rows = mysql_fetch_row(resp) != NULL){
+		building.idBuild = atoi(rows[0]);
+		building.name = rows[1];
+		building.location = atoi(rows[2]);
+		building.size = atoi(rows[3]);
+		building.theft = atoi(rows[4]);
+		building.description = rows[5];
+	}
+
+	fecharConexao(&conectar);
 
 	return building;
 }
 
 Enemy buscarZumbi(int idEnemy){
+	MYSQL conexao = conectar();
 	Enemy enemy;
+	MYSQL_RES res;
+	MYSQL_ROW rows;
+	char *query;
+
+	sprintf(query, "SELECT * FROM enemy WHERE idEnemy = '%i';", idEnemy);
+
+	mysql_query(&conexao, query);
+	resp = mysql_store_result(&conexao);
+
+	while((rows = mysql_fetch_row(resp) != NULL){
+		enemy.idEnemy = atoi(rows[0]);
+		enemy.name = rows[1];
+		enemy.hp = atoi(rows[2]);
+		enemy.xpGain = atoi(rows[3]);
+	}
+
+	fecharConexao(&conectar);
 
 	return enemy;
 }
