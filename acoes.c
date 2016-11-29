@@ -17,7 +17,7 @@ void mover(Player *player){
 	Building building; 
 
 	printf("Para onde deseja se mover?\n");
-	scanf("%i", location);
+	scanf("%i", &location);
 	printf("\n");
 
 	building.location = location;

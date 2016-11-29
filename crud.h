@@ -4,8 +4,9 @@ Autores: Arthur Cohen e Jonathan Gabriel
 */
 #ifndef CRUD_H_
 #define CRUD_H_
-#include <mysql/mysql.h>
+#include <mysql.h>
 #include "structs.h"
+#include <stdio.h>
 
 MYSQL conectar();
 

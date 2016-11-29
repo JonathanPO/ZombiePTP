@@ -4,9 +4,11 @@ Autores: Arthur Cohen e Jonathan Gabriel
 */
 
 #include <string.h>
-#include <mysql/mysql.h>
+#include <mysql.h>
 #include "crud.h"
 #include "structs.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 // Método responsável por fazer uma conexão com o banco de dados
 MYSQL conectar(){
@@ -14,12 +16,12 @@ MYSQL conectar(){
 
 	mysql_init(&conexao);
 
-	if(mysql_real_connect(&conexao, "localhost", "root", "root", "teste", 0, NULL, 0)){
+	if(mysql_real_connect(&conexao, "localhost", "root", "root", "zumbi", 0, NULL, 0)){
 		return conexao;
 	} else{
 		printf("Conexão com o banco falhou");
 
-		return NULL;
+		return conexao;
 	}
 }
 
@@ -31,7 +33,7 @@ void fecharConexao(MYSQL *conexao){
 // Método responsável por buscar um usuário no banco de dados
 int autenticarUsuario(char *usuario, char *senha){
 	MYSQL conexao = conectar();
-	MYSQL_RES res;
+	MYSQL_RES resp;
 	MYSQL_ROW rows;
 	char *query;
 	int i=0, rtn=1;
@@ -41,7 +43,7 @@ int autenticarUsuario(char *usuario, char *senha){
 	mysql_query(&conexao, query);
 	resp = mysql_store_result(&conexao);
 
-	while((rows = mysql_fetch_row(resp) != NULL){
+	while((rows = mysql_fetch_row(resp) != NULL)){
 		if(rows[0] == senha){
 			rtn = 0;
 		}
@@ -69,7 +71,7 @@ int adicionarUsuario(char *usuario, char *senha){
 Player buscarJogador(char *login){
 	MYSQL conexao = conectar();
 	Player player;
-	MYSQL_RES res;
+	MYSQL_RES resp;
 	MYSQL_ROW rows;
 	char *query;
 
@@ -78,7 +80,7 @@ Player buscarJogador(char *login){
 	mysql_query(&conexao, query);
 	resp = mysql_store_result(&conexao);
 
-	while((rows = mysql_fetch_row(resp) != NULL){
+	while((rows = mysql_fetch_row(resp) != NULL)){
 		player.idPlayer = atoi(rows[0]);
 		player.name = rows[1];
 		player.password = rows[2];
@@ -94,7 +96,7 @@ Player buscarJogador(char *login){
 Building buscarLocal(int location){
 	MYSQL conexao = conectar();
 	Building building;
-	MYSQL_RES res;
+	MYSQL_RES resp;
 	MYSQL_ROW rows;
 	char *query;
 
@@ -103,7 +105,7 @@ Building buscarLocal(int location){
 	mysql_query(&conexao, query);
 	resp = mysql_store_result(&conexao);
 
-	while((rows = mysql_fetch_row(resp) != NULL){
+	while((rows = mysql_fetch_row(resp) != NULL)){
 		building.idBuild = atoi(rows[0]);
 		building.name = rows[1];
 		building.location = atoi(rows[2]);
@@ -120,7 +122,7 @@ Building buscarLocal(int location){
 Enemy buscarZumbi(int idEnemy){
 	MYSQL conexao = conectar();
 	Enemy enemy;
-	MYSQL_RES res;
+	MYSQL_RES resp;
 	MYSQL_ROW rows;
 	char *query;
 
@@ -129,7 +131,7 @@ Enemy buscarZumbi(int idEnemy){
 	mysql_query(&conexao, query);
 	resp = mysql_store_result(&conexao);
 
-	while((rows = mysql_fetch_row(resp) != NULL){
+	while((rows = mysql_fetch_row(resp) != NULL)){
 		enemy.idEnemy = atoi(rows[0]);
 		enemy.name = rows[1];
 		enemy.hp = atoi(rows[2]);
