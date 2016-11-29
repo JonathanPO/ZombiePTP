@@ -1,10 +1,16 @@
+/*
+Arquivo principal do jogo
+Autores: Arthur Cohen e Jonathan Gabriel
+*/
+
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "utilities.h"
 
 int main(void){
-	char *login;
-	char *senha;
+	char *login = malloc(sizeof(char) * 128);
+	char *senha = malloc(sizeof(char) * 128);
 
 	printf("Bem vindo ao Zombie Text!\n\n\n");
 	printf("---------------------------------\n");

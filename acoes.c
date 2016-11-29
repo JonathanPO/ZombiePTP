@@ -22,7 +22,7 @@ void mover(Player *player){
 
 	building.location = location;
 
-	building = buscarLocal(&building);
+	building = buscarLocal(location);
 
 	(*player).stamina -= building.size;
 
@@ -116,7 +116,7 @@ void itens(Player *player){
 void lutar(Player *player){
 	int tipoDoZumbi = gerarZumbi(player);
 	Enemy zumbi = buscarZumbi(tipoDoZumbi);
-	char *acao;
+	char *acao = malloc(sizeof(char) * 128);
 
 	printf("|||||||||||||||||||||FIGHT MODE|||||||||||||||||||||\n");
 	while(zumbi.hp > 0 && (*player).hp > 0){

@@ -72,7 +72,7 @@ void usarItem(Player *player, int cod){
 
 void ocorrerEvento(Player *player){
 	int codEvento, tipoDoItem;
-	char *acao;
+	char *acao = malloc(sizeof(char) * 128);
 
 	srand(time(NULL));
 
@@ -87,6 +87,8 @@ void ocorrerEvento(Player *player){
 		case 2:
 			printf("A wild NPC appears!\n");
 			printf("Deseja interagir com ele? (sim ou nao)\n");
+			scanf("%s", acao);
+			printf("\n");
 			if(strcmp(acao, "sim") == 0){
 				char *npc = gerarNPC(player);
 				agir(player, npc);
@@ -177,7 +179,7 @@ int randomizarAcao(){
 
 // Método responsável por manter o estado de jogo e definir as ações possíveis
 void jogar(char *login){
-	char *acao = "inicio\0";
+	char *acao = malloc(sizeof(char) * 128);
 
 	Player player = buscarJogador(login);
 	player.stamina = 20;

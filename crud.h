@@ -13,7 +13,7 @@ int adicionarUsuario(char *usuario, char *senha);
 
 Player buscarJogador(char *login);
 
-Building buscarLocal(Building *building);
+Building buscarLocal(int location);
 
 Enemy buscarZumbi(int idEnemy);
 

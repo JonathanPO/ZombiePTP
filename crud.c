@@ -19,13 +19,19 @@ int adicionarUsuario(char *usuario, char *senha){
 }
 
 Player buscarJogador(char *login){
-	return 0;
+	Player player;
+
+	return player;
 }
 
-Building buscarLocal(Building *building){
-	return 0;
+Building buscarLocal(int location){
+	Building building;
+
+	return building;
 }
 
 Enemy buscarZumbi(int idEnemy){
-	return 0;
+	Enemy enemy;
+
+	return enemy;
 }
