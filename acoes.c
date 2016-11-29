@@ -3,26 +3,28 @@ Arquivo responsável por implementar os métodos do header acoes.h
 Autores: Arthur Cohen e Jonathan Gabriel
 */
 
+#include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "acoes.h"
 #include "structs.h"
 #include "crud.h"
-#include "utiilities.h"
+#include "utilities.h"
 
 // Método responsável por realizar a ação de mover o personagem para um building
 void mover(Player *player){
-	char location[];
+	int location;
 	Building building; 
 
 	printf("Para onde deseja se mover?\n");
-	scanf("%s", location);
+	scanf("%i", location);
 	printf("\n");
 
 	building.location = location;
 
-	building = buscarLocal(building);
+	building = buscarLocal(&building);
 
-	*player.stamina = *player.stamina - building.size;
+	(*player).stamina -= building.size;
 
 	printf("Você chegou na localidade %i\n", building.location);
 	printf("%s\n", building.description);
@@ -32,13 +34,16 @@ void mover(Player *player){
 // Método responsável por realizar a ação de permitir o personagem interagir com um NPC
 void agir(Player *player, char *npc){
 	int i = 0, j = 0, cod = -1;
+	int tempBag[20];
+	int bagLength = (int) sizeof((*player).bag) / sizeof((*player).bag[0]);
+	int tempBagLength = (int) sizeof(tempBag) / sizeof(tempBag[0]);
 
-	if(strcmp(*npc, "vendedor") == 0){
+	if(strcmp(npc, "vendedor") == 0){
 		printf("---------------------------Bem vindo à loja---------------------------\n");
 
-		for(i=0; i < *npc.bag.size(); i++){
+		/*for(i=0; i < tamanhoArray(*npc.bag); i++){
 			printf("%i - %s \n", i+1, traduzirItens(*npc.bag(i)));
-		}
+		}*/
 		i = 0;
 
 		while(cod != 0){
@@ -47,7 +52,7 @@ void agir(Player *player, char *npc){
 			printf("\n");
 
 			if(cod > 0 && cod < 5){
-				*npc.swap[i] = cod;
+				tempBag[i] = cod;
 				i++;
 			} else if(cod == 0){
 				printf("Obrigado pela compra!\n");
@@ -58,20 +63,20 @@ void agir(Player *player, char *npc){
 
 		i=0;
 
-		for(i=0; i < *player.bag.size(); i++){
-			if(*player.bag[i] == 0){
-				if(j < *npc.swap.size()){
-					*player.bag[i] == *npc.swap[j];
+		for(i=0; i < bagLength; i++){
+			if((*player).bag[i] == 0){
+				if(j < tempBagLength){
+					(*player).bag[i] == tempBag[j];
 					j++;
 				}
 			}
 		}
 
-	} else if(strcmp(*npc.type, "evento") == 0){
-		for(i=0; i < *player.bag.size(); i++){
-			if(*player.bag[i] == 0){
-				if(j < *npc.swap.size()){
-					*player.bag[i] == *npc.swap[j];
+	} else if(strcmp(npc, "evento") == 0){
+		for(i=0; i < bagLength; i++){
+			if((*player).bag[i] == 0){
+				if(j < tempBagLength){
+					(*player).bag[i] == tempBag[j];
 					j++;
 				}
 			}
@@ -83,11 +88,12 @@ void agir(Player *player, char *npc){
 // Método responsável por realizar a ação de mostrar os itens que o personagem possui
 void itens(Player *player){
 	int i = 0, cod = 0;
+	int bagLength = (int) sizeof((*player).bag) / sizeof((*player).bag[0]);
 
 	printf("-----------------------Itens-----------------------\n");
 
-	for(i=0; i < *player.bag.size(); i++){
-			printf("%i - %s \n", i+1, traduzirItens(*player.bag(i)));
+	for(i=0; i < bagLength; i++){
+			printf("%i - %s \n", i+1, traduzirItens((*player).bag[i]));
 	}
 
 	while(cod != 0){
@@ -102,23 +108,72 @@ void itens(Player *player){
 			}
 	}
 
+	printf("Mochila fechada!\n");
+
 }
 
 // Método responsável por realizar a ação de luta contra um zumbi
 void lutar(Player *player){
-	int tipoDoZumbi = gerarZumbi();
+	int tipoDoZumbi = gerarZumbi(player);
+	Enemy zumbi = buscarZumbi(tipoDoZumbi);
+	char *acao;
 
-	switch(tipoDoZumbi){
-		case 1:
-			printf("Você foi atacado por um zumbi comum!\n");
-		case 2:
-			printf("Você foi atacado por um zumbi protegido!\n");
-		case 3:
-			printf("Você foi atacado por um cachorro zumbi!\n");
-		case 4:
-			printf("Você foi atacado por um zumbi tank!\n");
+	printf("|||||||||||||||||||||FIGHT MODE|||||||||||||||||||||\n");
+	while(zumbi.hp > 0 && (*player).hp > 0){
+		printf("Zombie HP: %i\n", zumbi.hp);
+		printf("Player HP: %i\n", (*player).hp);
+		printf("Sua ação (atacar, itens, fugir):\n");
+		scanf("%s", acao);
+		printf("\n");
+
+		if(strcmp(acao, "atacar") == 0){
+			if(randomizarAcao() == 5){
+				printf("O zumbi esquivou!\n");
+			} else if(randomizarAcao() == 10){
+				printf("Ataque crítico!\n");
+				printf("%i de dano!\n", ((*player).xp) / 5);
+				zumbi.hp -= (*player).xp / 5;
+			} else{
+				printf("O zumbi sofreu %i de dano!\n", (*player).xp / 10);
+				zumbi.hp -= (*player).xp / 10;
+			}
+
+		} else if (strcmp(acao, "itens") == 0){
+			itens(player);
+		} else if (strcmp(acao, "fugir") == 0){
+			if(randomizarAcao() > 5){
+				printf("Fugiu!\n");
+			} else{
+				printf("Não conseguiu fugir!\n");
+			}
+		}
+
+		if(strcmp(acao, "fugir") != 0){
+			if(zumbi.hp > 0){
+				printf("O zumbi atacou!\n");
+
+				if(randomizarAcao() == 5){
+					printf("Você esquivou do zumbi!\n");
+				} else if(randomizarAcao() == 10){
+					printf("Ataque crítico do zumbi!\n");
+					printf("%i de dano!\n", zumbi.xpGain / 5);
+					(*player).hp -= zumbi.xpGain / 5;
+				} else{
+					printf("Você sofreu %i de dano!\n", zumbi.xpGain / 10);
+					(*player).hp -= zumbi.xpGain / 10;
+				}
+			} else{
+				printf("O zumbi foi derrotado!\n");
+				printf("Vcoê ganhou %i de XP!\n", zumbi.xpGain);
+				(*player).xp += zumbi.xpGain;
+			}
+
+			if((*player).xp < 0){
+				printf("O zumbi te derrotou!\n");
+				printf("------------------------GAME OVER------------------------\n");
+				exit(0);
+			}
+		}
 	}
-
-	return 0;
 
 }

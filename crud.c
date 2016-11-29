@@ -4,12 +4,12 @@ Autores: Arthur Cohen e Jonathan Gabriel
 */
 
 #include <string.h>
-#include <mysql.h>
+//#include <mysql.h>
 #include "crud.h"
 #include "structs.h"
 
 // Método responsável por buscar um usuário no banco de dados
-int buscarUsuario(char *usuario, char *senha){
+int autenticarUsuario(char *usuario, char *senha){
 	return 0;
 }
 
@@ -26,10 +26,6 @@ Building buscarLocal(Building *building){
 	return 0;
 }
 
-NPC buscarNPC(char *type){
-	return 0;
-}
-
-int buscarZumbi(char *type){
+Enemy buscarZumbi(int idEnemy){
 	return 0;
 }
