@@ -9,6 +9,7 @@ Autores: Arthur Cohen e Jonathan Gabriel
 #include "structs.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // Método responsável por fazer uma conexão com o banco de dados
 MYSQL conectar(){
@@ -33,9 +34,9 @@ void fecharConexao(MYSQL *conexao){
 // Método responsável por buscar um usuário no banco de dados
 int autenticarUsuario(char *usuario, char *senha){
 	MYSQL conexao = conectar();
-	MYSQL_RES resp;
+	MYSQL_RES *resp;
 	MYSQL_ROW rows;
-	char *query;
+	char *query = malloc(sizeof(char) * 128);
 	int i=0, rtn=1;
 
 	sprintf(query, "SELECT password FROM player WHERE name='%s';", usuario);
@@ -44,12 +45,12 @@ int autenticarUsuario(char *usuario, char *senha){
 	resp = mysql_store_result(&conexao);
 
 	while((rows = mysql_fetch_row(resp) != NULL)){
-		if(rows[0] == senha){
+		if(strcmp(rows[0], senha) == 0){
 			rtn = 0;
 		}
 	}
 
-	fecharConexao(&conectar);
+	fecharConexao(&conexao);
 
 	return rtn;
 }
@@ -57,13 +58,13 @@ int autenticarUsuario(char *usuario, char *senha){
 // Método responsável por adicionar um usuário na base de dados
 int adicionarUsuario(char *usuario, char *senha){
 	MYSQL conexao = conectar();
-	char *query;
+	char *query = malloc(sizeof(char) * 128);
 
 	sprintf(query, "INSERT INTO player(name, password, hp, xp) VALUES ('%s', '%s', 200, 50);", usuario, senha);
 
 	mysql_query(&conexao, query);
 
-	fecharConexao(&conectar);
+	fecharConexao(&conexao);
 
 	return 0;
 }
@@ -71,9 +72,9 @@ int adicionarUsuario(char *usuario, char *senha){
 Player buscarJogador(char *login){
 	MYSQL conexao = conectar();
 	Player player;
-	MYSQL_RES resp;
+	MYSQL_RES *resp;
 	MYSQL_ROW rows;
-	char *query;
+	char *query = malloc(sizeof(char) * 128);
 
 	sprintf(query, "SELECT * FROM player WHERE name='%s';", login);
 
@@ -88,7 +89,7 @@ Player buscarJogador(char *login){
 		player.xp = atoi(rows[4]);
 	}
 
-	fecharConexao(&conectar);
+	fecharConexao(&conexao);
 
 	return player;
 }
@@ -96,9 +97,9 @@ Player buscarJogador(char *login){
 Building buscarLocal(int location){
 	MYSQL conexao = conectar();
 	Building building;
-	MYSQL_RES resp;
+	MYSQL_RES *resp;
 	MYSQL_ROW rows;
-	char *query;
+	char *query = malloc(sizeof(char) * 128);
 
 	sprintf(query, "SELECT * FROM building WHERE location = '%i';", location);
 
@@ -114,7 +115,7 @@ Building buscarLocal(int location){
 		building.description = rows[5];
 	}
 
-	fecharConexao(&conectar);
+	fecharConexao(&conexao);
 
 	return building;
 }
@@ -122,9 +123,9 @@ Building buscarLocal(int location){
 Enemy buscarZumbi(int idEnemy){
 	MYSQL conexao = conectar();
 	Enemy enemy;
-	MYSQL_RES resp;
+	MYSQL_RES *resp;
 	MYSQL_ROW rows;
-	char *query;
+	char *query = malloc(sizeof(char) * 128);
 
 	sprintf(query, "SELECT * FROM enemy WHERE idEnemy = '%i';", idEnemy);
 
@@ -138,7 +139,11 @@ Enemy buscarZumbi(int idEnemy){
 		enemy.xpGain = atoi(rows[3]);
 	}
 
-	fecharConexao(&conectar);
+	fecharConexao(&conexao);
 
 	return enemy;
+}
+
+void salvarJogo(Player *player, Building *building, Enemy *enemy){
+
 }

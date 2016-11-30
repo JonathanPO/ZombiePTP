@@ -22,8 +22,6 @@ Building buscarLocal(int location);
 
 Enemy buscarZumbi(int idEnemy);
 
-void salvarJogo(Player *player, Building *building, Enemy *enemy){
-
-}
+void salvarJogo(Player *player, Building *building, Enemy *enemy);
 
 #endif

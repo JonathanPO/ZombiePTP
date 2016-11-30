@@ -23,12 +23,12 @@ int main(void){
 
 	if(autenticar(login, senha) == 0){
 		printf("Olá, %s!\n", login);
-		jogar();
+		jogar(login);
 	} else{
 		criarUsuario(login, senha);
 
 		printf("Olá, %s!\n", login);
-		jogar();
+		jogar(login);
 	}
 
 	return 0;
